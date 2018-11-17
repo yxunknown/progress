@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.AddProgressActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:textColor="#000000"
+        android:background="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="ADD PROGRESS"
+        android:gravity="bottom"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="5dp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="70dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_name"
+            android:textColor="#000000"
+            android:textColorHint="#818181"
+            android:hint="name of progress"
+            android:textSize="14sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_start_time"
+            android:textColor="#000000"
+            android:textColorHint="#818181"
+            android:hint="start time"
+            android:layout_below="@id/edt_name"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edt_end_time"
+            android:textColor="#000000"
+            android:textColorHint="#818181"
+            android:hint="start time"
+            android:layout_below="@id/edt_start_time"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/edt_end_time"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Date format: yyyy-MM-dd HH:mm:ss"
+            android:textColor="#212121"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center|end"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:layout_gravity="bottom">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/check"
+            android:padding="4dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="addProgress"
+            android:background="?android:selectableItemBackgroundBorderless"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/close"
+            android:padding="8dp"
+            android:onClick="close"
+            android:background="?android:selectableItemBackgroundBorderless"/>
+    </LinearLayout>
+
+</FrameLayout>

@@ -30,3 +30,35 @@ fun parseProgress(progressJsonArrayStr: String): List<Progress> {
         listOf()
     }
 }
+
+fun getThisYearProgress(): Progress {
+    val currentDate = Date()
+    // believe it or not
+    // the below code is work when test
+    val thisYear = Date(currentDate.year, 0, 1, 0, 0, 0)
+    val nextYear = Date(currentDate.year + 1, 0, 1, 0, 0, 0)
+    val thisYearCalendar = Calendar.getInstance()
+    return Progress(
+        name = "${thisYearCalendar.get(Calendar.YEAR)} progress",
+        startTime = thisYear,
+        endTime = nextYear
+    )
+}
+
+fun parseJsonToProgress(progressJsonStr: String): Progress {
+    return try {
+        val jsonProgress = JSONObject(progressJsonStr)
+        Progress(
+            name = jsonProgress.getString("name"),
+            startTime = Date(jsonProgress.getLong("startTime")),
+            endTime = Date(jsonProgress.getLong("endTime"))
+        )
+    } catch (e: java.lang.Exception) {
+        getThisYearProgress()
+    }
+}
+fun getProgress(progress: Progress): Double {
+    val totalTime = progress.endTime.time - progress.startTime.time
+    val nowTime = Date().time - progress.startTime.time
+    return nowTime.toDouble() * 100 / totalTime.toDouble()
+}

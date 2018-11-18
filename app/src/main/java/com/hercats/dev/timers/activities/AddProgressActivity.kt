@@ -26,7 +26,7 @@ class AddProgressActivity : AppCompatActivity() {
     }
 
     fun close(view: View) {
-        onBackPressed()
+        finish()
     }
 
     fun addProgress(view: View) {
@@ -82,8 +82,6 @@ class AddProgressActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 snack("add new progress with error: ${e.message}.")
             }
-        } else {
-            snack("your input is invalid!")
         }
     }
 
@@ -91,7 +89,7 @@ class AddProgressActivity : AppCompatActivity() {
         if (mmkv.encode("progress", progressJsonArrayStr)) {
             snack("add progress success.")
             // return to pre activity
-            startActivity(intentFor<MainActivity>())
+            setResult(Activity.RESULT_OK)
             finish()
         } else {
             snack("add progress failed.")

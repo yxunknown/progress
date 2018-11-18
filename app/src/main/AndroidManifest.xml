@@ -2,25 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.hercats.dev.timers">
 
-    <application
-            android:name=".application.ProgressApplication"
-            android:allowBackup="true"
-            android:icon="@drawable/logo"
-            android:label="@string/app_name"
-            android:roundIcon="@drawable/spinner"
-            android:supportsRtl="true"
-            android:theme="@style/full">
-        <activity android:name=".activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+	<application
+		android:name=".application.ProgressApplication"
+		android:allowBackup="true"
+		android:icon="@drawable/logo"
+		android:label="@string/app_name"
+		android:roundIcon="@drawable/spinner"
+		android:supportsRtl="true"
+		android:theme="@style/full">
+		<activity android:name=".activities.MainActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity
-                android:name=".activities.AddProgressActivity"
-                android:theme="@style/full">
-        </activity>
-    </application>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".activities.AddProgressActivity"
+			android:theme="@style/full">
+		</activity>
+
+		<receiver android:name=".widget.ProgressWidget">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+			</intent-filter>
+
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/progress_widget_info"/>
+		</receiver>
+		<service android:name=".service.UpdateWidgetService"/>
+	</application>
 
 </manifest>

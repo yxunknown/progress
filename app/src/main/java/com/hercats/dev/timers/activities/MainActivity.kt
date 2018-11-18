@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
 import android.view.View
 import com.hercats.dev.timers.R
 import com.hercats.dev.timers.adapter.ProgressAdapter
 import com.hercats.dev.timers.entity.Progress
+import com.hercats.dev.timers.entity.getThisYearProgress
 import com.hercats.dev.timers.entity.json
 import com.hercats.dev.timers.entity.parseProgress
 import com.tencent.mmkv.MMKV
@@ -28,20 +30,49 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     private lateinit var adapter: ProgressAdapter
     private val progresses = mutableListOf<Progress>()
     private val mmkv = MMKV.defaultMMKV()
-    private val update = UpdateProgress()
+    private var update = UpdateProgress()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
-        this.update.execute()
     }
 //    override fun onStart() {
 //        super.onStart()
 //    }
 
+    override fun onResume() {
+        super.onResume()
+        try {
+            // try to start an reserve async task
+            this.update.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // get a new instance
+            this.update = UpdateProgress()
+            this.update.execute()
+        }
+    }
+
     override fun onPause() {
         super.onPause()
+        this.update.cancel(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        this.update.cancel(true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.update.cancel(true)
+    }
+
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
         this.update.cancel(true)
     }
 
@@ -58,34 +89,22 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             this.adapter.notifyDataSetChanged()
         } else {
             /**
-            * application is first running on this device
-            * so let's add this year progress for user
-            * when you read below comment: (fuck, who will read this code except you)
-            * you will find that below comment is damn shit
-            * ohh, thanks for your consideration
-            * the weather is so cold and i don't have a fuck girlfriend
-            * why am I coding here on a weekend time?
-            * fuck the dream
-            * ok, let's add this year progress for user
-            */
+             * application is first running on this device
+             * so let's add this year progress for user
+             * when you read below comment: (fuck, who will read this code except you)
+             * you will find that below comment is damn shit
+             * ohh, thanks for your consideration
+             * the weather is so cold and i don't have a fuck girlfriend
+             * why am I coding here on a weekend time?
+             * fuck the dream
+             * ok, let's add this year progress for user
+             */
             try {
                 // frankly, I hate this json library
                 val aJsonArray = JSONArray()
-                // fuck android, the Instant only supported over api 26
-                val currentDate = Date()
-                // believe it or not
-                // the below code is work when test
-                val thisYear = Date(currentDate.year, 0,1, 0, 0, 0)
-                val nextYear = Date(currentDate.year + 1, 0, 1, 0, 0, 0)
-                val thisYearCalendar = Calendar.getInstance()
-                val progress = Progress(
-                    name = "${thisYearCalendar.get(Calendar.YEAR)} progress",
-                    startTime = thisYear,
-                    endTime = nextYear
-                )
-                aJsonArray.put(progress.json())
+                aJsonArray.put(getThisYearProgress().json())
                 if (mmkv.encode("progress", aJsonArray.toString())) {
-                    this.progresses.add(progress)
+                    this.progresses.add(getThisYearProgress())
                     this.adapter.notifyDataSetChanged()
                 } else {
                     // store default value to mmkv storage failed
@@ -102,10 +121,9 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         val intent = intentFor<AddProgressActivity>()
         this.update.cancel(true)
         startActivity(intent)
-        finish()
     }
 
-    inner class UpdateProgress: AsyncTask<Void, Void, Void?>() {
+    inner class UpdateProgress : AsyncTask<Void, Void, Void?>() {
         override fun onProgressUpdate(vararg values: Void?) {
             this@MainActivity.adapter.notifyDataSetChanged()
             tv_current.setText(Date().toString(), true)
@@ -126,6 +144,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             return null
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (ADD_PROGRESS_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {

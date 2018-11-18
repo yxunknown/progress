@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFFFFF"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.AddProgressActivity">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:background="#FFFFFF"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activities.AddProgressActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -23,7 +22,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         android:layout_marginTop="70dp"/>
     <RelativeLayout
@@ -47,7 +46,8 @@
             android:id="@+id/edt_start_time"
             android:textColor="#000000"
             android:textColorHint="#818181"
-            android:hint="start time"
+            android:hint="start datetime"
+            android:inputType="datetime"
             android:layout_below="@id/edt_name"
             android:layout_marginTop="5dp"
             android:textSize="14sp"/>
@@ -57,7 +57,8 @@
             android:id="@+id/edt_end_time"
             android:textColor="#000000"
             android:textColorHint="#818181"
-            android:hint="start time"
+            android:hint="end datetime"
+            android:inputType="datetime"
             android:layout_below="@id/edt_start_time"
             android:layout_marginTop="5dp"
             android:textSize="14sp"/>

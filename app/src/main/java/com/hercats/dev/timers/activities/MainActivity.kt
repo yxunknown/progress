@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.KeyEvent
 import android.view.View
 import com.hercats.dev.timers.R
 import com.hercats.dev.timers.adapter.ProgressAdapter
@@ -17,9 +16,7 @@ import com.tencent.mmkv.MMKV
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.themedRelativeLayout
 import org.json.JSONArray
-import java.lang.Exception
 import java.util.*
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
@@ -78,7 +75,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     private fun init() {
         // init the adapter for display progress
-        adapter = ProgressAdapter(progresses, applicationContext)
+        this.adapter = ProgressAdapter(progresses, applicationContext)
         // bind adapter to list view
         lv_progress.adapter = this.adapter
 

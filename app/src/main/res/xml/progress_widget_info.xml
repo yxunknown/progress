@@ -3,7 +3,7 @@
                     android:minWidth="250dp"
                     android:minHeight="40dp"
                     android:updatePeriodMillis="1000"
-                    android:previewImage="@drawable/example_appwidget_preview"
+                    android:previewImage="@drawable/progress_preview"
                     android:initialLayout="@layout/progress_widget"
                     android:resizeMode="horizontal|vertical"
                     android:widgetCategory="home_screen"

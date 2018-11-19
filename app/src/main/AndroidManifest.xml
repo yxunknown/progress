@@ -7,7 +7,7 @@
 		android:allowBackup="true"
 		android:icon="@drawable/logo"
 		android:label="@string/app_name"
-		android:roundIcon="@drawable/spinner"
+		android:roundIcon="@drawable/logo"
 		android:supportsRtl="true"
 		android:theme="@style/full">
 		<activity android:name=".activities.MainActivity">

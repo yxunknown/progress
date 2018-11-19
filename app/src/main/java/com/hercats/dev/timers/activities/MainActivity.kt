@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     fun addProgress(view: View) {
         val intent = intentFor<AddProgressActivity>()
         this.update.cancel(true)
-        startActivity(intent)
+        startActivityForResult(intent, ADD_PROGRESS_REQUEST_CODE)
     }
 
     inner class UpdateProgress : AsyncTask<Void, Void, Void?>() {
@@ -149,7 +149,9 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         super.onActivityResult(requestCode, resultCode, data)
         if (ADD_PROGRESS_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
             this.progresses.removeAll(this.progresses)
+            this.progresses.clear()
             this.progresses.addAll(parseProgress(mmkv.decodeString("progress", "")))
+            this.adapter.notifyDataSetChanged()
         }
     }
 }

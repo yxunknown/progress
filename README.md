@@ -1,5 +1,5 @@
 # Progress
-Time always goes so fast ant waits for no one.I develop this application, to hope that I can seize time with my family,
+Time always goes so fast and waits for no one.I develop this application, to hope that I can seize time with my family,
 friends, and stranger.
 # How to use
 download the latest release apk file and install on your android device.

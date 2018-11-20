@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.hercats.dev.timers.R
 import com.hercats.dev.timers.entity.Progress
+import com.hercats.dev.timers.entity.getProgress
 import com.hercats.dev.timers.entity.json
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout
 import com.robinhood.ticker.TickerView
@@ -34,17 +35,15 @@ class ProgressAdapter(private val progresses: MutableList<Progress>,
         val progress = view.findViewById<ProgressBar>(R.id.pb_progress)
         val progressInfo = view.findViewById<TickerView>(R.id.tv_progress)
         name.text = progresses[position].name
-        progress.progress = getProgress(position).toInt()
-        progressInfo.setText("${getProgress(position)}%", true)
+        val progressValue = getProgress(this.progresses[position])
+        progress.progress = progressValue.toInt()
+        progressInfo.setText("$progressValue%", true)
         val collectBtn = view.findViewById<View>(R.id.btn_collect)
         val deleteBtn = view.findViewById<View>(R.id.btn_delete)
         val swipeMenu = view.findViewById<SwipeMenuLayout>(R.id.swipe_menu)
         collectBtn.setOnClickListener {
-            if (mmkv.encode("widget_progress", progresses[position].json().toString())) {
-                swipeMenu.smoothClose()
-            } else {
-                context.toast("set widget  progress error")
-            }
+            mmkv.encode("widget_progress", progresses[position].json().toString())
+            swipeMenu.smoothClose()
         }
         deleteBtn.setOnClickListener {
             // delete from ui
@@ -75,11 +74,4 @@ class ProgressAdapter(private val progresses: MutableList<Progress>,
     override fun getItemId(position: Int) = position.toLong()
 
     override fun getCount() = progresses.size
-
-    private fun getProgress(position: Int): Double {
-        val p = progresses[position]
-        val totalTime = p.endTime.time - p.startTime.time
-        val nowTime = Date().time - p.startTime.time
-        return nowTime.toDouble() * 100 / totalTime.toDouble()
-    }
 }

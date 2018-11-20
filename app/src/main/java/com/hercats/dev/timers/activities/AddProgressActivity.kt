@@ -1,9 +1,16 @@
 package com.hercats.dev.timers.activities
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.view.View
+import android.widget.DatePicker
+import android.widget.EditText
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.view.TimePickerView
 import com.hercats.dev.timers.R
 import com.hercats.dev.timers.entity.Progress
 import com.hercats.dev.timers.entity.json
@@ -23,6 +30,9 @@ class AddProgressActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_progress)
+        val edtFocusListener = EdtFocusListener()
+        edt_start_time.onFocusChangeListener = edtFocusListener
+        edt_end_time.onFocusChangeListener = edtFocusListener
     }
 
     fun close(view: View) {
@@ -93,6 +103,35 @@ class AddProgressActivity : AppCompatActivity() {
             finish()
         } else {
             snack("add progress failed.")
+        }
+    }
+
+    inner class EdtFocusListener: View.OnFocusChangeListener {
+        private val dateFormater = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
+        override fun onFocusChange(v: View, hasFocus: Boolean) {
+            v as EditText
+            val currentDate = if (!v.text.toString().isBlank()) {
+                dateFormater.parse(v.text.toString())
+            } else {
+                Date()
+            }
+            if (hasFocus) {
+                val timePicker = TimePickerBuilder(this@AddProgressActivity) {
+                    date, _ ->
+                    v.setText(dateFormater.format(date))
+                }
+                    .setDate(Calendar.getInstance().apply { time = currentDate })
+                    .setTitleText("chose datetime")
+                    .setCancelText("Cancel")
+                    .setSubmitText("Ok")
+                    .setCancelColor(Color.BLACK)
+                    .setSubmitColor(Color.BLACK)
+                    .isCyclic(true)
+                    .setType(arrayOf(true, true, true, true, true, true).toBooleanArray())
+                    .setTextColorCenter(Color.parseColor("#0070FF"))
+                    .build()
+                timePicker.show()
+            }
         }
     }
 

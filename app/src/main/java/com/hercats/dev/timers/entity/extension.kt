@@ -60,5 +60,10 @@ fun parseJsonToProgress(progressJsonStr: String): Progress {
 fun getProgress(progress: Progress): Double {
     val totalTime = progress.endTime.time - progress.startTime.time
     val nowTime = Date().time - progress.startTime.time
-    return nowTime.toDouble() * 100 / totalTime.toDouble()
+    val progressValue = nowTime.toDouble() * 100 / totalTime.toDouble()
+    return when {
+        (progressValue > 100) -> 100.00
+        (progressValue < 0) -> 0.00
+        else -> progressValue
+    }
 }

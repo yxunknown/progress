@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.tencent:mmkv:1.0.13'
     implementation "org.jetbrains.anko:anko:0.10.8"
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    implementation 'com.contrarywind:Android-PickerView:4.1.6'
 }

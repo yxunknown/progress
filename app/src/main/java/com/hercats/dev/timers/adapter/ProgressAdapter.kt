@@ -48,14 +48,14 @@ class ProgressAdapter(private val progresses: MutableList<Progress>,
         deleteBtn.setOnClickListener {
             // delete from ui
             this.progresses.removeAt(position)
-            // update ui
-            notifyDataSetChanged()
             // modify storage data
             try {
                 val progressArrayStr = mmkv.decodeString("progress", "")
                 val progressJsonArray = JSONArray(progressArrayStr)
                 val deletedProgress = progressJsonArray.remove(position) as JSONObject
                 val oldWidgetProgress = mmkv.decodeString("widget_progress", "")
+                // delete from cache
+                mmkv.encode("progress", progressJsonArray.toString())
                 if (deletedProgress.toString() == oldWidgetProgress) {
                     // delete the progress that widget used too
                     // so set the widget progress to default progress
@@ -65,6 +65,8 @@ class ProgressAdapter(private val progresses: MutableList<Progress>,
                 context.toast("delete progress failed")
             }
             swipeMenu.smoothClose()
+            // update ui
+            notifyDataSetChanged()
         }
         return view
     }

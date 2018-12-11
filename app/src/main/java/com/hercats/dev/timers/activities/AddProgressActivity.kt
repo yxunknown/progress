@@ -2,11 +2,13 @@ package com.hercats.dev.timers.activities
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.DatePicker
 import android.widget.EditText
 import com.bigkoo.pickerview.builder.TimePickerBuilder
@@ -116,6 +118,9 @@ class AddProgressActivity : AppCompatActivity() {
                 Date()
             }
             if (hasFocus) {
+                // cancel input method popup
+                val im = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                im.hideSoftInputFromWindow(edt_name.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
                 val timePicker = TimePickerBuilder(this@AddProgressActivity) {
                     date, _ ->
                     v.setText(dateFormater.format(date))

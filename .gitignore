@@ -12,4 +12,4 @@
 .idea
 ./app/build
 ./app/release
-/gradle
+./gradle
